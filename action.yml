@@ -1,0 +1,46 @@
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: action
+name: cbci build actions
+inputs:
+  url:
+    description: 'heroku REST-API url'
+    required: true
+    default: ''
+  token:
+    description: 'token'
+    required: true
+    default: ''
+  application_name:
+    description: 'heroku application name'
+    required: true
+    default: ''
+  repository_name:
+    description: 'heroku repository name'
+    required: true
+    default: ''
+  private_repository_personal_access_token:
+    description: 'heroku private repository personal access token'
+    required: true
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    # Checkout External Repository
+    - name: Checkout external Repository
+      uses: cloudbees-io/checkout@v1
+      with:
+        repository: ${{ inputs.repository_name }}
+        path: ''
+        clean: true
+        fetch-depth: 1
+        token: ${{ inputs.private_repository_personal_access_token }}
+    # Invoke Heroku Actions
+    - id: invoke-heroku-actions
+      name: invoke-heroku-actions
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/heroku-actions:main-569a775b52d6912200c9a8d80fdf75fa6f1d2dd7 
+      shell: sh
+      run: |
+        set -x
+        cd /app
+        ./heroku_actions_app invoke -v '{"MetaInfo":{"HerokuApiUrl":"${{ inputs.url }}","Token":"${{ inputs.token }}","HerokuAppName":"${{ inputs.application_name }}"}}'

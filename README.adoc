@@ -1,0 +1,61 @@
+= CloudBees action: Invoke Heroku run job
+
+Use this action to trigger heroku APIs to build and deploy your application and fetch the stdout logs as output.
+
+== Inputs
+
+[cols="2a,1a,1a,3a",options="header"]
+.Input details
+|===
+
+| Input name
+| Data type
+| Required?
+| Description
+
+| `token`
+| String
+| Yes
+| The Heroku API token generated with proper access (Read/Write).
+
+| `application_name`
+| String
+| Yes
+| The Heroku Application name which is a unique identifier for the application environment where build occurs.
+
+| `repository_name`
+| String
+| Yes
+| The name of the repository where the source code resides.
+
+| `private_repository_personal_access_token`
+| String
+| Yes
+| The personal access token to clone the source repository. 
+
+|===
+
+== Usage examples
+
+[source,yaml]
+----
+      - name: Trigger heroku actions
+        uses: cloudbees-io/heroku-run-job@v1
+        with:
+          url: "https://api.heroku.com"
+          token: ${{ secrets.HEROKU_TOKEN }}
+          application_name: ${{ inputs.application_name }}
+          repository_name: ${{ inputs.repository_name }}
+          private_repository_personal_access_token: ${{ secrets.HEROKU_REPOSITORY_PERSONAL_ACCESS_TOKEN }}
+----
+
+
+== License
+
+This code is made available under the 
+link:https://opensource.org/license/mit/[MIT license].
+
+== References
+
+* Learn more about link:https://docs.cloudbees.com/docs/cloudbees-saas-platform-actions/latest/[using actions in CloudBees workflows].
+* Learn about link:https://docs.cloudbees.com/docs/cloudbees-saas-platform/latest/[the CloudBees platform].
