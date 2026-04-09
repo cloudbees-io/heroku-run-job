@@ -38,7 +38,7 @@ runs:
     # Invoke Heroku Actions
     - id: invoke-heroku-actions
       name: invoke-heroku-actions
-      uses: docker://public.ecr.aws/l7o7z1g8/actions/heroku-actions:main-5e969b8cd7435e7fb5f52d1aa9345547e1f7ec06 
+      uses: docker://public.ecr.aws/l7o7z1g8/actions/heroku-actions:main-c9f52b7c26a2a46aab9bef702f1c4055cc084271 
       shell: sh
       run: |
         set -x
